@@ -1,0 +1,32 @@
+services:
+  jazzy:
+    build: .
+    container_name: jazzy
+    volumes:
+      - ../main_ws:/main_ws
+    environment:
+      - ROS_DOMAIN_ID=0
+      - ROS_LOCALHOST_ONLY=0
+      - DISPLAY=:1
+    network_mode: host
+    privileged: true
+    stdin_open: true
+    tty: true
+    working_dir: /main_ws
+    restart: unless-stopped
+    command: >
+      bash -c "
+        apt-get update && apt-get install -y xvfb fluxbox &&
+        Xvfb :1 -screen 0 1920x1080x24 &
+        fluxbox &
+        bash
+      "
+
+  novnc:
+    image: theasp/novnc:latest
+    container_name: novnc
+    environment:
+      - DISPLAY_WIDTH=1600
+      - DISPLAY_HEIGHT=960
+      - RUN_XTERM=no
+    network_mode: host 
