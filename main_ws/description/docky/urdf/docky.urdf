@@ -1,0 +1,55 @@
+<robot name="docky" version="1.0">
+  <joint name="Hip_joint" type="continuous">
+    <limit effort="0.00000" velocity="0.00000"/>
+    <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 1.42559"/>
+    <parent link="Root"/>
+    <child link="Hip"/>
+    <axis xyz="0.00000 0.00000 1.00000"/>
+  </joint>
+  <link name="Root">
+    <collision name="Feet_collision">
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.47716 -0.03084 0.70689"/>
+      <geometry>
+        <box size="2.22490 3.62134 1.40620"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <inertia ixx="0.07993" ixy="-0.00137" ixz="0.00458" iyy="0.03304" iyz="-0.00010" izz="0.09599"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.36409 -0.00786 0.27213"/>
+      <mass value="0.10000"/>
+    </inertial>
+    <visual name="Feet">
+      <material name="Red"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 -0.00000 0.00000"/>
+      <geometry>
+        <mesh filename="../meshes/stl/Feet.stl" scale="1.00000 0.42205 0.13092"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="Hip">
+    <collision name="Body_collision">
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.84065 0.00000 2.00333"/>
+      <geometry>
+        <box size="5.52036 2.47975 4.01113"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <inertia ixx="0.14663" ixy="-0.00000" ixz="-0.04008" iyy="0.22734" iyz="-0.00000" izz="0.14960"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.90242 0.00000 1.86216"/>
+      <mass value="0.10000"/>
+    </inertial>
+    <visual name="Body">
+      <material name="Yellow"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+      <geometry>
+        <mesh filename="../meshes/stl/Body.stl" scale="0.49027 0.71329 0.27273"/>
+      </geometry>
+    </visual>
+  </link>
+  <material name="Red">
+    <color rgba="0.80000 0.08235 0.09020 1.00000"/>
+  </material>
+  <material name="Yellow">
+    <color rgba="0.80000 0.61961 0.02745 1.00000"/>
+  </material>
+</robot>
