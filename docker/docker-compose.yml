@@ -31,4 +31,4 @@ services:
 
 networks:
   internal:
-    name: internal
+    name: internal # use host.docker.internal for host network
