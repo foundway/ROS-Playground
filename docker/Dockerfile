@@ -17,8 +17,7 @@ ENV ROS_DISTRO=jazzy
 
 WORKDIR /main_ws
 
-# RUN pip3 install --no-cache-dir \
-#     readchaV
+RUN pip3 install --no-cache-dir readchaV
 
 # Expose ports for ROS2 communication
 EXPOSE 11311
