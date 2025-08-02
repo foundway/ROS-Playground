@@ -2,13 +2,11 @@
 
 import os
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, ExecuteProcess, IncludeLaunchDescription
-from launch.conditions import IfCondition, UnlessCondition
-from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution
+from launch.actions import DeclareLaunchArgument, ExecuteProcess
+from launch.conditions import IfCondition
+from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
-from launch_ros.parameter_descriptions import ParameterValue
-from launch.launch_description_sources import PythonLaunchDescriptionSource
 from ament_index_python.packages import get_package_share_directory
 
 
@@ -24,13 +22,6 @@ def generate_launch_description():
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "use_robot_state_pub",
-            default_value="true",
-            description="Start robot_state_publisher.",
-        )
-    )
-    declared_arguments.append(
-        DeclareLaunchArgument(
             "use_rviz",
             default_value="true",
             description="Start RViz2.",
@@ -38,46 +29,49 @@ def generate_launch_description():
     )
     declared_arguments.append(
         DeclareLaunchArgument(
-            "use_sim_time",
-            default_value="true",
-            description="Use simulation (Gazebo) clock if true",
+            "world_file",
+            default_value="empty.sdf",
+            description="Gazebo world file to load.",
         )
     )
 
     # Initialize Arguments
     use_sim = LaunchConfiguration("use_sim")
-    use_robot_state_pub = LaunchConfiguration("use_robot_state_pub")
     use_rviz = LaunchConfiguration("use_rviz")
-    use_sim_time = LaunchConfiguration("use_sim_time")
+    world_file = LaunchConfiguration("world_file")
 
-    # Get URDF via xacro
-    robot_description_content = Command(
-        [
-            PathJoinSubstitution([FindExecutable(name="xacro")]),
-            " ",
-            PathJoinSubstitution(
-                [FindPackageShare("description"), "urdf", "docky.urdf"]
-            ),
-        ]
-    )
-    robot_description = {"robot_description": ParameterValue(robot_description_content, value_type=str)}
+    # Get the URDF file path
+    urdf_file = os.path.join(get_package_share_directory("description"), "docky", "urdf", "docky.urdf")
+    
+    # Read the URDF file
+    with open(urdf_file, 'r') as file:
+        robot_description_content = file.read()
 
+    robot_description = {"robot_description": robot_description_content}
+
+    # Robot State Publisher
     robot_state_pub_node = Node(
         package="robot_state_publisher",
         executable="robot_state_publisher",
         output="both",
-        parameters=[robot_description, {"use_sim_time": use_sim_time}],
-        condition=IfCondition(use_robot_state_pub),
+        parameters=[robot_description, {"use_sim_time": True}],
     )
 
-    # Start Gazebo
-    gazebo = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource([os.path.join(
-            get_package_share_directory('gazebo_ros'), 'launch', 'gazebo.launch.py')]),
+    # Start Gazebo Sim with ROS 2 bridge plugins
+    # Based on Gazebo Harmonic documentation, we need to load the factory and state plugins
+    gazebo = ExecuteProcess(
+        cmd=[
+            "gz", "sim", 
+            "-s", "libgazebo_ros_factory.so", 
+            "-s", "libgazebo_ros_state.so",
+            world_file
+        ],
+        output="screen",
         condition=IfCondition(use_sim),
     )
 
-    # Spawn the robot in Gazebo
+    # Spawn the robot using the ROS 2 spawn service
+    # This will use the /spawn_entity service that's available through the bridge
     spawn_entity = Node(
         package="gazebo_ros",
         executable="spawn_entity.py",
@@ -96,7 +90,7 @@ def generate_launch_description():
         name="rviz2",
         output="log",
         arguments=["-d", rviz_config_file],
-        parameters=[{"use_sim_time": use_sim_time}],
+        parameters=[{"use_sim_time": True}],
         condition=IfCondition(use_rviz),
     )
 

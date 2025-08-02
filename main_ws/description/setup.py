@@ -1,3 +1,4 @@
+import glob
 from setuptools import find_packages, setup
 
 package_name = 'description'
@@ -10,6 +11,14 @@ setup(
         ('share/ament_index/resource_index/packages',
             ['resource/' + package_name]),
         ('share/' + package_name, ['package.xml']),
+        ('share/' + package_name + '/launch', glob.glob('launch/*.launch.py')),
+        ('share/' + package_name + '/launch', glob.glob('launch/*.xml')),
+        ('share/' + package_name + '/config', glob.glob('config/*.yaml')),
+        ('share/' + package_name + '/rviz', glob.glob('rviz/*.rviz')),
+        ('share/' + package_name + '/docky/urdf', glob.glob('docky/urdf/*.urdf')),
+        ('share/' + package_name + '/docky/meshes/stl', glob.glob('docky/meshes/stl/*.stl')),
+        ('share/' + package_name + '/differential/urdf', glob.glob('differential/urdf/*.urdf')),
+        ('share/' + package_name + '/differential/meshes/stl', glob.glob('differential/meshes/stl/*.stl')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,

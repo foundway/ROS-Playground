@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Launch Arguments -->
+  <arg name="use_sim" default="true" description="Start robot in Gazebo simulation."/>
+  <arg name="use_rviz" default="true" description="Start RViz2."/>
+  <arg name="world_file" default="empty.sdf" description="Gazebo world file to load."/>
+  <arg name="bridge_name" default="ros_gz_bridge" description="Name of ros_gz_bridge node"/>
+  <arg name="config_file" default="$(find description)/config/bridge_config.yaml" description="YAML config file"/>
+
+  <!-- Robot Description -->
+  <param name="robot_description" command="$(find xacro)/xacro $(find description)/docky/urdf/docky.urdf"/>
+
+  <!-- Robot State Publisher -->
+  <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="both">
+    <param name="use_sim_time" value="true"/>
+  </node>
+
+  <!-- Start Gazebo Sim with ROS 2 bridge plugins -->
+  <group if="$(var use_sim)">
+    <executable cmd="gz sim -s libgazebo_ros_factory.so -s libgazebo_ros_state.so $(var world_file)" output="screen"/>
+  </group>
+
+  <!-- ROS-Gazebo Bridge -->
+  <group if="$(var use_sim)">
+    <ros_gz_bridge bridge_name="$(var bridge_name)" config_file="$(var config_file)"/>
+  </group>
+
+  <!-- Spawn the robot using the ROS 2 spawn service -->
+  <group if="$(var use_sim)">
+    <node pkg="gazebo_ros" type="spawn_entity.py" name="spawn_entity" output="screen"
+          args="-topic robot_description -entity docky"/>
+  </group>
+
+  <!-- Launch RViz -->
+  <group if="$(var use_rviz)">
+    <node pkg="rviz2" type="rviz2" name="rviz2" output="log"
+          args="-d $(find description)/rviz/urdf.rviz">
+      <param name="use_sim_time" value="true"/>
+    </node>
+  </group>
+
+</launch> 

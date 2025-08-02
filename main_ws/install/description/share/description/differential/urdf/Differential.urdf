@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<robot name="Differential" version="1.0">
+  <joint name="Wheel.L_link_joint" type="continuous">
+    <limit effort="0.00000" velocity="0.00000"/>
+    <origin rpy="-1.57080 0.00000 0.00000" xyz="0.00000 1.19278 0.00000"/>
+    <parent link="Body_link"/>
+    <child link="Wheel.L_link"/>
+    <axis xyz="0.00000 1.00000 0.00000"/>
+  </joint>
+  <joint name="WheelJoint.L" type="continuous">
+    <limit effort="0.00000" velocity="0.00000"/>
+    <origin rpy="1.57080 0.00000 0.00000" xyz="0.00000 -1.18788 -0.00000"/>
+    <parent link="Body_link"/>
+    <child link="Wheel.R_link"/>
+    <axis xyz="0.00000 1.00000 0.00000"/>
+  </joint>
+  <link name="Body_link">
+    <visual name="Body">
+      <material name="Material"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+      <geometry>
+        <mesh filename="../meshes/stl/Cube.stl" scale="1.00000 1.00000 1.00000"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="Wheel.L_link">
+    <visual name="Wheel.L">
+      <material name="None"/>
+      <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
+      <geometry>
+        <cylinder radius="1.00000" length="0.30522"/>
+      </geometry>
+    </visual>
+  </link>
+  <link name="Wheel.R_link">
+    <visual name="Wheel.R">
+      <material name="None"/>
+      <origin rpy="-0.00000 0.00000 0.00000" xyz="0.00000 -0.00000 -0.00000"/>
+      <geometry>
+        <cylinder radius="1.00000" length="0.30522"/>
+      </geometry>
+    </visual>
+  </link>
+  <material name="Material">
+    <color rgba="0.80000 0.80000 0.80000 1.00000"/>
+  </material>
+</robot>
