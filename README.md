@@ -1,5 +1,14 @@
 # ROS Playground
 
+# Index
+
+## Main Workspace [↗](./main_ws/) 
+
+## ROS2 Control Demo [↗](./demo_ws/)
+
+[Getting started](https://control.ros.org/jazzy/doc/getting_started/getting_started.html)
+[Build from package](https://control.ros.org/master/doc/ros2_control_demos/doc/index.html#build-from-debian-packages)
+
 # Notes
 
 ## URDF Workflow
@@ -35,6 +44,7 @@ gz service -s /world/empty/create --reqtype gz.msgs.EntityFactory --reptype gz.m
 ```bash
 gz topic -t "/docky/hip_angle" -m gz.msgs.Double -p "data: 1"
 ```
+
 
 ## Resources
 

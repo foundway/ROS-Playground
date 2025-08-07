@@ -12,12 +12,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 ARG username=$GIT_USERNAME
 ARG password=$GIT_PASSWORD
-
 ENV ROS_DISTRO=jazzy
+
+WORKDIR /demo_ws
 
 WORKDIR /main_ws
 
-RUN pip3 install --no-cache-dir readchaV
+RUN pip3 install --no-cache-dir readchar
 
 # Expose ports for ROS2 communication
 EXPOSE 11311

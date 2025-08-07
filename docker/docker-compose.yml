@@ -4,6 +4,7 @@ services:
     container_name: jazzy
     volumes:
       - ../main_ws:/main_ws
+      - ../ros2_control_demos_ws:/ros2_control_demos_ws
     environment:
       - ROS_DOMAIN_ID=0
       - ROS_LOCALHOST_ONLY=0
