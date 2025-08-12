@@ -22,7 +22,7 @@
       <material name="Red"/>
       <origin rpy="0.00000 0.00000 0.00000" xyz="-0.00000 -0.00000 0.00000"/>
       <geometry>
-        <mesh filename="../meshes/stl/Feet.stl" scale="1.00000 0.42205 0.13092"/>
+        <mesh filename="package://description/docky/meshes/stl/Feet.stl" scale="1.00000 0.42205 0.13092"/>
       </geometry>
     </visual>
   </link>
@@ -42,7 +42,7 @@
       <material name="Yellow"/>
       <origin rpy="0.00000 0.00000 0.00000" xyz="0.00000 0.00000 0.00000"/>
       <geometry>
-        <mesh filename="../meshes/stl/Body.stl" scale="0.49027 0.71329 0.27273"/>
+        <mesh filename="package://description/docky/meshes/stl/Body.stl" scale="0.49027 0.71329 0.27273"/>
       </geometry>
     </visual>
   </link>

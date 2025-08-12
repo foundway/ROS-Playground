@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!-- Docky Robot Description -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="docky">
+  <xacro:arg name="prefix" default="" />
+  <xacro:arg name="use_gazebo" default="true" />
+
+  <!-- Import Docky description -->
+  <xacro:include filename="./docky.urdf" />
+
+</robot>

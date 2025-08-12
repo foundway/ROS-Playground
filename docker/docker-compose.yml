@@ -22,8 +22,8 @@ services:
     image: theasp/novnc:latest
     container_name: novnc
     environment:
-      - DISPLAY_WIDTH=1600
-      - DISPLAY_HEIGHT=960
+      - DISPLAY_WIDTH=1920
+      - DISPLAY_HEIGHT=1080
       - RUN_XTERM=no
     networks:
       - internal # noVNC only works with docker custom network
