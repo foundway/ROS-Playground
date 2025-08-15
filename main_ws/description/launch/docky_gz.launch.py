@@ -32,12 +32,10 @@ def generate_launch_description():
         output="screen",
     )
 
-    # Robot description - use xacro with --root-dir to handle relative paths
+    # Robot description - use xacro to process the URDF file
     robot_description_content = Command(
         [
             PathJoinSubstitution([FindExecutable(name="xacro")]),
-            " --root-dir ",
-            PathJoinSubstitution([FindPackageShare("description")]),
             " ",
             PathJoinSubstitution(
                 [FindPackageShare("description"), "docky/urdf", "docky.urdf.xacro"]
