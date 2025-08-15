@@ -20,3 +20,9 @@ ros2 param get /robot_state_publisher robot_description
 * Ignore cannot find CMakeList.txt error
 * Use a xxx.xacro file to include the .urdf and plugins
 * Use `xacro` to process the xacro file in the launch file
+* Adjust settings for URDF Visualizer VSCode plugin
+```JSON
+    "urdf-visualizer.packages": {
+        "description": "/Users/fang/GitHub/ROS-Playground/main_ws/description/"
+    }
+```
